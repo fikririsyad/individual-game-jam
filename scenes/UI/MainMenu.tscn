@@ -1,0 +1,66 @@
+[gd_scene load_steps=6 format=3 uid="uid://cyvgki7ex83kt"]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_krctq"]
+[ext_resource type="Texture2D" uid="uid://b8uvefxkse5lq" path="res://assets/spritesheets/main_menu.png" id="1_mly76"]
+[ext_resource type="FontFile" uid="uid://sayx8wtw41tu" path="res://assets/fonts/PTF-NORDIC-Std.ttf" id="2_awtk0"]
+[ext_resource type="Texture2D" uid="uid://coqnt4lp53n7p" path="res://assets/spritesheets/main_menu_modal.png" id="3_vsnh8"]
+[ext_resource type="PackedScene" uid="uid://bcav5wa77vlfx" path="res://scenes/UI/CustomButton.tscn" id="4_e025l"]
+
+[node name="MainMenu" type="CanvasLayer"]
+script = ExtResource("1_krctq")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_mly76")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TitleMarginContainer" type="MarginContainer" parent="TextureRect/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 120
+theme_override_constants/margin_top = 360
+theme_override_constants/margin_bottom = 80
+
+[node name="TitleLabel" type="Label" parent="TextureRect/VBoxContainer/TitleMarginContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_awtk0")
+theme_override_font_sizes/font_size = 128
+text = "Orbz"
+
+[node name="MarginContainer" type="MarginContainer" parent="TextureRect/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 80
+
+[node name="TextureRect" type="TextureRect" parent="TextureRect/VBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("3_vsnh8")
+
+[node name="MarginContainer" type="MarginContainer" parent="TextureRect/VBoxContainer/MarginContainer/TextureRect"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -96.0
+offset_right = 96.0
+offset_bottom = 158.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 70
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TextureRect/VBoxContainer/MarginContainer/TextureRect/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="PlayButton" parent="TextureRect/VBoxContainer/MarginContainer/TextureRect/MarginContainer/VBoxContainer" instance=ExtResource("4_e025l")]
+layout_mode = 2
+button_text = "Play"
+
+[node name="QuitButton" parent="TextureRect/VBoxContainer/MarginContainer/TextureRect/MarginContainer/VBoxContainer" instance=ExtResource("4_e025l")]
+layout_mode = 2
+button_text = "Quit"
+
+[connection signal="pressed" from="TextureRect/VBoxContainer/MarginContainer/TextureRect/MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="TextureRect/VBoxContainer/MarginContainer/TextureRect/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

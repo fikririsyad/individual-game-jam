@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3 uid="uid://cghxxibbyrycs"]
+
+[ext_resource type="Script" path="res://scripts/game_ui.gd" id="1_hpfqa"]
+[ext_resource type="FontFile" uid="uid://sayx8wtw41tu" path="res://assets/fonts/PTF-NORDIC-Std.ttf" id="2_fiifq"]
+[ext_resource type="Texture2D" uid="uid://r0iv12o7uwqm" path="res://assets/spritesheets/lives.png" id="2_ynb78"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5mle0"]
+atlas = ExtResource("2_ynb78")
+region = Rect2(272, 18, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_joa6y"]
+atlas = ExtResource("2_ynb78")
+region = Rect2(208, 18, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t13e3"]
+atlas = ExtResource("2_ynb78")
+region = Rect2(144, 18, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vyl6d"]
+atlas = ExtResource("2_ynb78")
+region = Rect2(80, 18, 32, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vsaba"]
+atlas = ExtResource("2_ynb78")
+region = Rect2(16, 18, 32, 30)
+
+[node name="GameUI" type="CanvasLayer"]
+script = ExtResource("1_hpfqa")
+heart_empty = SubResource("AtlasTexture_5mle0")
+heart_quarter = SubResource("AtlasTexture_joa6y")
+heart_half = SubResource("AtlasTexture_t13e3")
+heart_three_quarters = SubResource("AtlasTexture_vyl6d")
+heart_full = SubResource("AtlasTexture_vsaba")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 34.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="LivesContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="ScoreLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_fiifq")
+theme_override_font_sizes/font_size = 28
+text = "Score: 0"
+
+[node name="TimerLabel" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_fiifq")
+theme_override_font_sizes/font_size = 28

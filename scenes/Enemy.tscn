@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://lqmh54qnp3uk"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_cjspf"]
+[ext_resource type="Texture2D" uid="uid://bnhwer40lvfmb" path="res://assets/spritesheets/squares.png" id="1_n684c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sjm5m"]
+atlas = ExtResource("1_n684c")
+region = Rect2(274, 18, 28, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4b2mb"]
+size = Vector2(28, 30)
+
+[node name="Enemy" type="Area2D" groups=["enemy"]]
+script = ExtResource("1_cjspf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_sjm5m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_4b2mb")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(4.76837e-07, 5.96046e-07)
+scale = Vector2(1.4, 1.5)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

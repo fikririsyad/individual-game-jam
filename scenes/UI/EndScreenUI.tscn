@@ -1,0 +1,86 @@
+[gd_scene load_steps=7 format=3 uid="uid://cbowd3oow3eby"]
+
+[ext_resource type="Script" path="res://scripts/end_screen.gd" id="1_p1kr4"]
+[ext_resource type="Texture2D" uid="uid://dc5kuy5t7xnpb" path="res://assets/spritesheets/game-over.png" id="2_cfslv"]
+[ext_resource type="FontFile" uid="uid://sayx8wtw41tu" path="res://assets/fonts/PTF-NORDIC-Std.ttf" id="4_n5r67"]
+[ext_resource type="AudioStream" uid="uid://drsjek533o13h" path="res://assets/audio/win.wav" id="5_emgux"]
+[ext_resource type="PackedScene" uid="uid://bcav5wa77vlfx" path="res://scenes/UI/CustomButton.tscn" id="5_rq7yv"]
+[ext_resource type="AudioStream" uid="uid://dn7w86bpy6kmn" path="res://assets/audio/lose.wav" id="6_e2iud"]
+
+[node name="EndScreenUI" type="CanvasLayer"]
+script = ExtResource("1_p1kr4")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 512.0
+offset_bottom = 640.0
+texture = ExtResource("2_cfslv")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 64
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="TitleLabel" type="Label" parent="Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("4_n5r67")
+theme_override_font_sizes/font_size = 56
+
+[node name="ScoreTimerMarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/ScoreTimerMarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="TimerLabel" type="Label" parent="Background/MarginContainer/VBoxContainer/ScoreTimerMarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("4_n5r67")
+theme_override_font_sizes/font_size = 32
+text = "Time:"
+
+[node name="ScoreLabel" type="Label" parent="Background/MarginContainer/VBoxContainer/ScoreTimerMarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("4_n5r67")
+theme_override_font_sizes/font_size = 32
+text = "Score:"
+
+[node name="ButtonMarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/ButtonMarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="RestartButton" parent="Background/MarginContainer/VBoxContainer/ButtonMarginContainer/VBoxContainer" instance=ExtResource("5_rq7yv")]
+process_mode = 3
+layout_mode = 2
+button_text = "Restart"
+
+[node name="MainMenuButton" parent="Background/MarginContainer/VBoxContainer/ButtonMarginContainer/VBoxContainer" instance=ExtResource("5_rq7yv")]
+process_mode = 3
+layout_mode = 2
+button_text = "Back to menu"
+
+[node name="WinSound" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("5_emgux")
+volume_db = -5.0
+
+[node name="LoseSound" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("6_e2iud")
+volume_db = -5.0
+
+[connection signal="pressed" from="Background/MarginContainer/VBoxContainer/ButtonMarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="Background/MarginContainer/VBoxContainer/ButtonMarginContainer/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
