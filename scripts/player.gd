@@ -10,7 +10,6 @@ extends Area2D
 @onready var sprite = $Sprite2D
 
 const SPEED := 200
-const INIT_CLAIM_COOLDOWN := 0.4
 const INIT_SWITCH_COOLDOWN := 1.0
 
 # Score and lives
@@ -21,8 +20,6 @@ var current_color := "red"
 # Claiming
 var claimed_tiles := {}  # Dictionary: tile_position -> true/false (claimed)
 var total_tiles := 0  # Populated in _ready()
-var claim_timer := 0.0
-var claim_cooldown := INIT_CLAIM_COOLDOWN
 
 # Switch and move
 var safe_time := 0.0
@@ -83,7 +80,7 @@ func _physics_process(delta: float) -> void:
 			else:
 				$BumpSound.play()
 				
-		handle_tile_claiming(current_tile, delta)
+	handle_tile_claiming(current_tile, delta)
 	
 	if get_tile_color(current_tile) != current_color:
 		safe_time = 0.0
@@ -105,17 +102,13 @@ func handle_tile_claiming(tile_pos: Vector2i, delta: float) -> void:
 	var tile_color = get_tile_color(tile_pos)
 	
 	if tile_color == current_color or shield_active:
-		# Claim tile after cooldown
-		claim_timer += delta
-		if claim_timer >= claim_cooldown and not claimed_tiles.get(tile_pos, false):
+		# Claim tile instantly if not already claimed
+		if not claimed_tiles.get(tile_pos, false):
 			claimed_tiles[tile_pos] = true
 			$MatchSound.play()
 			emit_signal("score_updated", claimed_tiles.size() + score)  # Reuse score for claimed count
 			claimmap.set_cell(tile_pos, 0, Vector2i(0, 0))  # Layer 1 = claimed overlay
-			claim_timer = 0.0
 			check_win_condition()
-	else:
-		claim_timer = 0.0
 
 func get_tile_color(tile_pos: Vector2i) -> String:
 	# Match your TileMap's source IDs to colors (adjust based on your setup)
@@ -182,9 +175,6 @@ func heal(amount: float = 0.25) -> void:
 
 func activate_speed_boost(multiplier: float, duration: float) -> void:
 	current_speed = SPEED * multiplier
-	claim_cooldown = 0.25
-	switch_cooldown = 0.75
-	speed_boost_active = true
 	modulate = Color.SILVER
 	$SpeedTimer.start(duration)
 
@@ -196,9 +186,6 @@ func activate_shield(duration: float) -> void:
 func _on_speed_timer_timeout() -> void:
 	modulate = Color.WHITE
 	current_speed = SPEED
-	claim_cooldown = INIT_CLAIM_COOLDOWN
-	switch_cooldown = INIT_SWITCH_COOLDOWN
-	speed_boost_active = false
 
 func _on_shield_timer_timeout() -> void:
 	modulate = Color.WHITE
